@@ -101,7 +101,7 @@ form.addEventListener('submit', e => {
   const value = input.value.trim();
   if (!value) return;
   const item = createTodoItem(value);
-  list.appendChild(item);
+  list.prepend(item);
   input.value = '';
   setTimeout(updateBulkBtns, 20);
 });
