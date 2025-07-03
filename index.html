@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="todo-app">
+    <h1>Todo List</h1>
+    <form id="todo-form" autocomplete="off">
+      <input type="text" id="todo-input" placeholder="Add a new task..." maxlength="80" required />
+      <button type="submit" aria-label="Add task">+</button>
+    </form>
+    <ul id="todo-list"></ul>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html> 
