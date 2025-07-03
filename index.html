@@ -14,7 +14,10 @@
       <input type="text" id="todo-input" placeholder="Add a new task..." maxlength="80" required />
       <button type="submit" aria-label="Add task">+</button>
     </form>
-    <button id="delete-all" class="delete-all-btn" type="button">Delete All</button>
+    <div class="bulk-actions">
+      <button id="mark-all-done" class="bulk-btn" type="button">Mark All as Done</button>
+      <button id="delete-all" class="bulk-btn delete-all-btn" type="button">Delete All</button>
+    </div>
     <ul id="todo-list"></ul>
   </div>
   <script src="app.js"></script>

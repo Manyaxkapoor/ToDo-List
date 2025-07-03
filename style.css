@@ -77,26 +77,44 @@ h1 {
   transform: scale(1.07);
 }
 
-.delete-all-btn {
+.bulk-actions {
+  display: flex;
+  gap: 0.7rem;
   margin: 0.2rem 0 0.7rem 0;
+  justify-content: flex-end;
+}
+
+.bulk-btn {
   padding: 0.6rem 1.2rem;
   background: #23262F;
-  color: #E57373;
-  border: 1.5px solid #E57373;
+  color: #2D9CDB;
+  border: 1.5px solid #2D9CDB;
   border-radius: 10px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  box-shadow: 0 1.5px 6px rgba(229,115,115,0.08);
+  box-shadow: 0 1.5px 6px rgba(45,156,219,0.08);
   transition: background 0.18s, color 0.18s, border 0.18s, transform 0.12s;
   letter-spacing: 0.01em;
+}
+
+.bulk-btn:hover, .bulk-btn:focus {
+  background: #2D9CDB;
+  color: #fff;
+  border: 1.5px solid #2D9CDB;
+  transform: scale(1.04);
+}
+
+.delete-all-btn {
+  color: #E57373;
+  border: 1.5px solid #E57373;
+  box-shadow: 0 1.5px 6px rgba(229,115,115,0.08);
 }
 
 .delete-all-btn:hover, .delete-all-btn:focus {
   background: #E57373;
   color: #fff;
   border: 1.5px solid #E57373;
-  transform: scale(1.04);
 }
 
 #todo-list {

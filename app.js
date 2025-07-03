@@ -2,6 +2,7 @@ const form = document.getElementById('todo-form');
 const input = document.getElementById('todo-input');
 const list = document.getElementById('todo-list');
 const deleteAllBtn = document.getElementById('delete-all');
+const markAllDoneBtn = document.getElementById('mark-all-done');
 
 function createTodoItem(text) {
   const li = document.createElement('li');
@@ -46,15 +47,23 @@ function createTodoItem(text) {
   return li;
 }
 
-function updateDeleteAllBtn() {
-  deleteAllBtn.disabled = list.children.length === 0;
-  if (deleteAllBtn.disabled) {
-    deleteAllBtn.style.opacity = '0.5';
-    deleteAllBtn.style.cursor = 'not-allowed';
-  } else {
-    deleteAllBtn.style.opacity = '1';
-    deleteAllBtn.style.cursor = 'pointer';
-  }
+function updateBulkBtns() {
+  const hasTasks = list.children.length > 0;
+  [markAllDoneBtn, deleteAllBtn].forEach(btn => {
+    btn.disabled = !hasTasks;
+    btn.style.opacity = hasTasks ? '1' : '0.5';
+    btn.style.cursor = hasTasks ? 'pointer' : 'not-allowed';
+  });
+}
+
+function markAllAsDone() {
+  Array.from(list.children).forEach((item, idx) => {
+    setTimeout(() => {
+      item.classList.add('completed');
+      const check = item.querySelector('.todo-check');
+      if (check) check.classList.add('checked');
+    }, idx * 30);
+  });
 }
 
 function removeAllTasks() {
@@ -64,10 +73,15 @@ function removeAllTasks() {
       item.style.opacity = '0';
       item.style.transform = 'translateY(20px)';
       setTimeout(() => item.remove(), 250);
-    }, idx * 40); // stagger animation
+    }, idx * 40);
   });
-  setTimeout(updateDeleteAllBtn, items.length * 40 + 260);
+  setTimeout(updateBulkBtns, items.length * 40 + 260);
 }
+
+markAllDoneBtn.addEventListener('click', () => {
+  if (list.children.length === 0) return;
+  markAllAsDone();
+});
 
 deleteAllBtn.addEventListener('click', () => {
   if (list.children.length === 0) return;
@@ -78,7 +92,7 @@ deleteAllBtn.addEventListener('click', () => {
 const origCreateTodoItem = createTodoItem;
 createTodoItem = function(text) {
   const li = origCreateTodoItem(text);
-  setTimeout(updateDeleteAllBtn, 20);
+  setTimeout(updateBulkBtns, 20);
   return li;
 };
 
@@ -89,7 +103,7 @@ form.addEventListener('submit', e => {
   const item = createTodoItem(value);
   list.appendChild(item);
   input.value = '';
-  setTimeout(updateDeleteAllBtn, 20);
+  setTimeout(updateBulkBtns, 20);
 });
 
 list.addEventListener('click', e => {
@@ -107,8 +121,8 @@ list.addEventListener('click', e => {
       item.remove();
     }, 250);
   }
-  setTimeout(updateDeleteAllBtn, 260);
+  setTimeout(updateBulkBtns, 260);
 });
 
 // Initial state
-updateDeleteAllBtn(); 
+updateBulkBtns(); 
