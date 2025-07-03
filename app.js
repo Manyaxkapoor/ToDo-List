@@ -1,6 +1,7 @@
 const form = document.getElementById('todo-form');
 const input = document.getElementById('todo-input');
 const list = document.getElementById('todo-list');
+const deleteAllBtn = document.getElementById('delete-all');
 
 function createTodoItem(text) {
   const li = document.createElement('li');
@@ -45,6 +46,42 @@ function createTodoItem(text) {
   return li;
 }
 
+function updateDeleteAllBtn() {
+  deleteAllBtn.disabled = list.children.length === 0;
+  if (deleteAllBtn.disabled) {
+    deleteAllBtn.style.opacity = '0.5';
+    deleteAllBtn.style.cursor = 'not-allowed';
+  } else {
+    deleteAllBtn.style.opacity = '1';
+    deleteAllBtn.style.cursor = 'pointer';
+  }
+}
+
+function removeAllTasks() {
+  const items = Array.from(list.children);
+  items.forEach((item, idx) => {
+    setTimeout(() => {
+      item.style.opacity = '0';
+      item.style.transform = 'translateY(20px)';
+      setTimeout(() => item.remove(), 250);
+    }, idx * 40); // stagger animation
+  });
+  setTimeout(updateDeleteAllBtn, items.length * 40 + 260);
+}
+
+deleteAllBtn.addEventListener('click', () => {
+  if (list.children.length === 0) return;
+  removeAllTasks();
+});
+
+// Update button state on add/remove
+const origCreateTodoItem = createTodoItem;
+createTodoItem = function(text) {
+  const li = origCreateTodoItem(text);
+  setTimeout(updateDeleteAllBtn, 20);
+  return li;
+};
+
 form.addEventListener('submit', e => {
   e.preventDefault();
   const value = input.value.trim();
@@ -52,6 +89,7 @@ form.addEventListener('submit', e => {
   const item = createTodoItem(value);
   list.appendChild(item);
   input.value = '';
+  setTimeout(updateDeleteAllBtn, 20);
 });
 
 list.addEventListener('click', e => {
@@ -69,4 +107,8 @@ list.addEventListener('click', e => {
       item.remove();
     }, 250);
   }
-}); 
+  setTimeout(updateDeleteAllBtn, 260);
+});
+
+// Initial state
+updateDeleteAllBtn(); 
